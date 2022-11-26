@@ -2,7 +2,7 @@ class Solution
 {
     public:
 
-        int dfs(vector<vector < int>> arr, int x, int y, int zero)
+        int dfs(vector<vector < int>> &arr, int x, int y, int zero)
         {
             int n = arr.size();
             int m = arr[0].size();
@@ -20,7 +20,8 @@ class Solution
                 dfs(arr, x, y + 1, zero) +
                 dfs(arr, x - 1, y, zero) +
                 dfs(arr, x, y - 1, zero);
-
+            
+            arr[x][y] = 0;
             return ans;
         }
     int uniquePathsIII(vector<vector < int>> &arr)
