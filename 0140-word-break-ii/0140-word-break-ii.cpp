@@ -1,41 +1,33 @@
 class Solution
 {
     public:
+    set<string> st;
+
+    map<int, vector<string>> mp;
+    vector<string> solve(string &s, int i)
+    {
         vector<string> ans;
-    void solve(string &s, set<string> &st, int i, string b, string word)
-    {
-       	// cout<<b<<endl;
-        int n = s.length();
-        if (i == n and st.find(word) != st.end())
-        {
-            ans.push_back(b);
-            return;
+        for(int j = i; j < s.size(); j++) {
+            if(st.count(s.substr(i, j-i+1))) {
+                if(j == s.size() - 1) {
+                    ans.push_back(s.substr(i, j-i+1));
+                    break;
+                }
+                auto vec = solve(s, j+1);
+                for(auto t: vec) {
+                    ans.push_back(s.substr(i, j-i+1) + " " + t);
+                }
+            }
         }
-        if (i == n)
-            return;
-
-        word.push_back(s[i]);
-        // b.push_back(s[i]);
-        solve(s, st, i + 1, b+s[i], word);
-
-        if (st.find(word) != st.end())
-        {
-            solve(s, st, i + 1, b+s[i] + ' ', "");
-        }
+        return ans;
     }
-    vector<string> wordBreak(string s, vector<string> &arr)
+    vector<string> wordBreak(string s, vector<string> &wordDict)
     {
-
-        set<string> st;
-
-        for (auto i: arr)
+        for (auto i: wordDict)
         {
             st.insert(i);
         }
-        string b = "";
 
-        string word = "";
-        solve(s, st, 0, b, word);
-        return ans;
+        return solve(s, 0);
     }
 };
