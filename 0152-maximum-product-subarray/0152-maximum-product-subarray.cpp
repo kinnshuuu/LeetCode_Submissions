@@ -4,24 +4,21 @@ public:
     int maxProduct(vector<int>& arr) {
         int n = arr.size();
         
-        int p = 1;
-        int ans = INT_MIN;
-        for(int i = 0; i<n; i++)
+        int max_p = arr[0];
+        int min_p = arr[0];
+        int ans = min_p;
+        
+        for(int i = 1; i<n; i++)
         {
-            p *= arr[i];
-            ans = max(ans, p);
+            if(arr[i] < 0)
+            {
+                swap(max_p,min_p);
+            }
             
-            if(p == 0)
-                p = 1;
-        }
-        p = 1;
-        for(int i = n-1; i>=0 ; i--)
-        {
-            p*= arr[i];
-            ans = max(ans,p);
+            max_p = max(max_p* arr[i] , arr[i]);
+            min_p = min(min_p* arr[i] , arr[i]);
             
-            if(p == 0)
-                p =1;
+            ans = max(ans, max_p);
         }
         return ans;
     }
